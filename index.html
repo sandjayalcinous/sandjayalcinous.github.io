@@ -7,6 +7,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link rel="stylesheet" href="style.css">
+    
+    <style>
+        .goog-te-banner-frame.skiptranslate { display: none !important; }
+        body { top: 0px !important; }
+        #google_translate_element { display: none; }
+        
+        /* Petit style pour aligner les drapeaux avec le texte */
+        .flag-icon { width: 20px; border-radius: 3px; vertical-align: middle; margin-right: 5px; box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
+    </style>
 </head>
 <body>
 
@@ -18,11 +27,16 @@
                     <span>Alcinous.Portfolio</span>
                 </a>
             </div>
-            <ul>
+            <ul style="display: flex; align-items: center; gap: 20px;">
                 <li><a href="index.html" class="active">À propos</a></li>
                 <li><a href="projects.html">Projets</a></li>
                 <li><a href="cv.html">CV & Parcours</a></li>
                 <li><a href="contact.html">Contact</a></li>
+                <li style="border-left: 1px solid #30363d; padding-left: 20px; display: flex; align-items: center;">
+                    <a id="lang-flag" onclick="toggleLanguage()" style="cursor: pointer; text-decoration: none; display: flex; align-items: center;" title="Translate to English">
+                        <img src="https://flagcdn.com/w40/gb.png" alt="English" style="width: 24px; border-radius: 3px; box-shadow: 0 2px 4px rgba(0,0,0,0.3); transition: transform 0.2s;">
+                    </a>
+                </li>
             </ul>
         </div>
     </nav>
@@ -99,7 +113,10 @@
                         </div>
 
                     </div>
-                    </div> </div> <h3 style="color: #f0f6fc; margin-bottom: 15px; font-size: 1.2rem; margin-top: 30px;">
+                </div> 
+            </div> 
+            
+            <h3 style="color: #f0f6fc; margin-bottom: 15px; font-size: 1.2rem; margin-top: 30px;">
                 <i class="fa-solid fa-star" style="color:#e3b341;"></i> Recommandation
             </h3>
             
@@ -126,12 +143,47 @@
                 </div>
                 <div class="repo-card">
                     <div class="repo-header"><span class="repo-name"><i class="fa-solid fa-language"></i> Langues</span></div>
-                    <p>🇫🇷 Français (Natif)<br>🇬🇧 Anglais (Technique B2)<br>🇨🇳 Chinois (Notions)</p>
+                    <p style="line-height: 1.8;">
+                        <img src="https://flagcdn.com/w20/fr.png" class="flag-icon" alt="FR"> Français (Natif)<br>
+                        <img src="https://flagcdn.com/w20/gb.png" class="flag-icon" alt="UK"> Anglais (Technique B2)<br>
+                        <img src="https://flagcdn.com/w20/cn.png" class="flag-icon" alt="CN"> Chinois (Notions)
+                    </p>
                 </div>
             </div>
 
         </main>
     </div>
+
+    <div id="google_translate_element"></div>
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({pageLanguage: 'fr', includedLanguages: 'en', autoDisplay: false}, 'google_translate_element');
+        }
+
+        let isEnglish = false;
+        function toggleLanguage() {
+            if (isEnglish) {
+                // Recharge la page pour revenir au français natif
+                window.location.reload(); 
+            } else {
+                // Lance la traduction Google en anglais
+                var selectField = document.querySelector("select.goog-te-combo");
+                if(selectField) {
+                    selectField.value = "en";
+                    selectField.dispatchEvent(new Event("change"));
+                    
+                    // Remplace l'image du drapeau UK par le drapeau FR
+                    document.getElementById("lang-flag").innerHTML = '<img src="https://flagcdn.com/w40/fr.png" alt="Français" style="width: 24px; border-radius: 3px; box-shadow: 0 2px 4px rgba(0,0,0,0.3); transition: transform 0.2s;">';
+                    document.getElementById("lang-flag").title = "Revenir au français";
+                    isEnglish = true;
+                } else {
+                    // Si le widget n'est pas encore chargé, on attend un peu
+                    setTimeout(toggleLanguage, 500);
+                }
+            }
+        }
+    </script>
+    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
 </body>
 </html>
